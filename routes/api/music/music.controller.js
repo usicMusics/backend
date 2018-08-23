@@ -22,9 +22,10 @@ exports.readMusics = (req, res) => {
     })
 };
 
-// 음악생성
+// create music
 exports.createMusic = (req, res) => {
   let form = new formidable.IncomingForm()
+  console.log(form)
   form.parse(req, function (err, fields, files) {
     const oldMusic = files.music.path
     const newMusic = './public/music/' + files.music.name
@@ -103,7 +104,6 @@ exports.remove = (req, res) => {
       res.json(createResponse(204, 'success'))
     }
   ).catch(e => res.json(createResponse(404, 'not found')))
-  
 }
 
 // 음악 소스 등록

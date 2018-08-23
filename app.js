@@ -33,13 +33,13 @@ app.use(history())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // parse JSON and url-encoded query
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 // print the request log on console
 app.use(morgan('dev'))
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     //모든 도메인의 요청을 허용하지 않으면 웹브라우저에서 CORS 에러를 발생시킨다.
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
