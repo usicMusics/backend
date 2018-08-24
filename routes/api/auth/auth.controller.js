@@ -94,15 +94,15 @@ exports.login = (req, res) => {
                             username: user.username,
                             nickname: user.nickname,
                             admin: user.admin
-                        }, 
-                        secret, 
+                        },
+                        secret,
                         {
                             expiresIn: '7d',
                             issuer: 'usicmusic.com',
                             subject: 'userInfo'
                         }, (err, token) => {
                             if (err) reject(err)
-                            resolve(token) 
+                            resolve(token)
                         })
                 })
                 return p
@@ -134,7 +134,6 @@ exports.login = (req, res) => {
     .then(check)
     .then(respond)
     .catch(onError)
-
 }
 
 /*
