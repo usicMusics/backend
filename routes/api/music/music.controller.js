@@ -24,16 +24,19 @@ exports.readMusics = (req, res) => {
 
 // create music
 exports.createMusic = (req, res) => {
+  // get form
   let form = new formidable.IncomingForm()
-  console.log(form)
   form.parse(req, function (err, fields, files) {
+    // 넘어온 음악 주소
     const oldMusic = files.music.path
+    // 서버에 저장되는 주소
     const newMusic = './public/music/' + files.music.name
+    // 파일 업로드
     fs.rename(oldMusic, newMusic, function (err) {
       if (err) throw err
     })
 
-    console.log(files.cover.name)
+    // cover 이미지 등록
     let cover = 'cover.jpg'
     if(files.cover.name !== '') {
       const oldCover = files.cover.path
@@ -45,6 +48,7 @@ exports.createMusic = (req, res) => {
       })
     }
 
+    // 가사 등록
     let lrc = 'lrc.lrc'
     if(files.lrc.name !== '') {
       const oldLrc = files.lrc.path
@@ -56,16 +60,17 @@ exports.createMusic = (req, res) => {
       })
     }
     
-    // console.log(req.body.title)
+    // DB에 음악 데이터 저장
     const create = () => {
       return Music.create(fields.title, fields.artist, cover, files.music.name, true, lrc)
     }
+    // response
     const respond = () => {
       res.json(createResponse(200, '성공'))
     }
     create().then(respond)
   })
-};
+}
 
 exports.uploadSource = (req, res) => {
   let form = new formidable.IncomingForm()
@@ -77,7 +82,18 @@ exports.uploadSource = (req, res) => {
       if (err) throw err
     })
 
+    // cover 이미지 등록
     let cover = 'cover.jpg'
+    if(files.cover.name !== '') {
+      const oldCover = files.cover.path
+      const newCover = './public/cover/' + files.cover.name
+      cover = files.cover.name
+
+      fs.rename(oldCover, newCover, function (err) {
+        if (err) throw err
+      })
+    }
+
     let lrc = 'lrc.lrc'
     
     // console.log(req.body.title)

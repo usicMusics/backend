@@ -5,8 +5,6 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 
 const history = require('connect-history-api-fallback')
-// const synth = require('synth-js')
-// const fs = require('fs')
 const cors = require('cors')
 const path = require('path')
 
@@ -14,7 +12,7 @@ const path = require('path')
     LOAD THE CONFIG
 ==========================*/
 const config = require('./config')
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 3000
 
 /* =======================
     EXPRESS CONFIGURATION
@@ -27,10 +25,11 @@ app.use(cors())
 /* =======================
     SETTING ENGINE
 ==========================*/
+const staticFileMiddleware = express.static(path.join(__dirname, 'public'))
 
-app.use(express.static(path.join(__dirname, 'public')))
-// app.use(history())
-// app.use(express.static(path.join(__dirname, 'public')))
+app.use(staticFileMiddleware)
+app.use(history())
+app.use(staticFileMiddleware)
 
 // parse JSON and url-encoded query
 app.use(bodyParser.urlencoded({extended: false}))
